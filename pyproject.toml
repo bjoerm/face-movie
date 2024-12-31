@@ -1,0 +1,30 @@
+# How-to update requirements.txt:
+# pip install pip-tools
+# Main: pip-compile --upgrade --resolver=backtracking -o requirements.txt pyproject.toml
+# Dev: pip-compile --upgrade --extra dev --resolver=backtracking -o dev_requirements.txt pyproject.toml
+# Update venv: pip-sync requirements.txt dev_requirements.txt
+
+[project]
+name = "face-movie"
+version = "0.1"
+dependencies = ["numpy", "opencv-python", "pillow", "pydantic", "scikit-image", "tqdm"]
+
+[project.optional-dependencies]
+dev = ["black", "flake8", "isort", "pytest"]
+
+[tool.black]
+line-length = 200
+
+[tool.isort]
+profile = "black"
+line_length = 200
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = [
+    "--import-mode=importlib",  # "For new projects, we recommend to use importlib import mode (see https://docs.pytest.org/en/7.1.x/explanation/goodpractices.html#which-import-mode for a detailed explanation)."
+    # "-n 4"  # Does not work in Github Actions. Parallel testing with pytest-xdist (https://code.visualstudio.com/docs/python/
+]
+
+
